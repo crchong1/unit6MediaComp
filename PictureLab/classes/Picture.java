@@ -98,6 +98,96 @@ public class Picture extends SimplePicture
     }
   }
   
+  public void negate()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    for (Pixel[] rowArray : pixels)
+    {
+      for (Pixel pixelObj : rowArray)
+      {
+        int blue = pixelObj.getBlue();
+        int red = pixelObj.getRed();
+        int green = pixelObj.getGreen();
+        pixelObj.setBlue(255 - blue);
+        pixelObj.setGreen(255-green);
+        pixelObj.setRed(255-red);
+      }
+    }
+  }
+  public void grayscale()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    for (Pixel[] rowArray : pixels)
+    {
+      for (Pixel pixelObj : rowArray)
+      {
+        int blue = pixelObj.getBlue();
+        int red = pixelObj.getRed();
+        int green = pixelObj.getGreen();
+        int total = (int)(blue + red + green)/3;
+        pixelObj.setBlue(total);
+        pixelObj.setGreen(total);
+        pixelObj.setRed(total);
+      }
+    }
+  }
+  
+  public void fixUnderwater()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    for (Pixel[] rowArray : pixels)
+    {
+      for (Pixel pixelObj : rowArray)
+      {
+        int blue = pixelObj.getBlue();
+        int red = pixelObj.getRed();
+        int green = pixelObj.getGreen();
+        if (blue < 163 && red >= 18)
+        {
+              pixelObj.setBlue(blue - 80);
+              pixelObj.setGreen(green -80);
+              pixelObj.setRed(red-100);
+        }
+      }
+    }
+  }
+  
+  
+  
+  public void keepOnlyBlue()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    for (Pixel[] rowArray : pixels)
+    {
+      for (Pixel pixelObj : rowArray)
+      {
+        pixelObj.setGreen(0);
+        pixelObj.setRed(0);
+      }
+    }
+  }
+  
+  public void cropAndCopy( Picture sourcePicture, int startSourceRow, int endSourceRow, int startSourceCol, int endSourceCol,
+         int startDestRow, int startDestCol )
+  {
+      Pixel[][] intPixels = sourcePicture.getPixels2D();
+      Pixel[][] finalPixels = this.getPixels2D();
+      for (int row1 = startSourceRow; row1 < endSourceRow+1; row1++)
+      {
+          int reset = startDestCol;
+          for (int col1 = startSourceCol; col1 < endSourceCol+1; col1++)
+          {
+               finalPixels[startDestRow][reset].setColor(intPixels[row1][col1].getColor());
+               reset++;
+          }
+          startDestRow++;
+          
+      }
+  }
+ 
+  
+  
+  
   /** Method that mirrors the picture around a 
     * vertical mirror in the center of the picture
     * from left to right */
@@ -287,9 +377,9 @@ public class Picture extends SimplePicture
    */
   public static void main(String[] args) 
   {
-    Picture beach = new Picture("seagull.jpg");
+    Picture beach = new Picture("water.jpg");
     beach.explore();
-    beach.zeroBlue();
+    beach.cropAndCopy( beach, 20,50,10,30,140,140);
     beach.explore();
   }
   
