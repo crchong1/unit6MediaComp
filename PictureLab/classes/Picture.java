@@ -105,12 +105,12 @@ public class Picture extends SimplePicture
     {
       for (Pixel pixelObj : rowArray)
       {
-        int blue = pixelObj.getBlue();
-        int red = pixelObj.getRed();
-        int green = pixelObj.getGreen();
-        pixelObj.setBlue(255 - blue);
-        pixelObj.setGreen(255-green);
-        pixelObj.setRed(255-red);
+         int blue = pixelObj.getBlue();
+         int red = pixelObj.getRed();
+         int green = pixelObj.getGreen();
+         pixelObj.setBlue(255 - blue);
+         pixelObj.setGreen(255-green);
+         pixelObj.setRed(255-red);
       }
     }
   }
@@ -185,8 +185,24 @@ public class Picture extends SimplePicture
       }
   }
  
-  
-  
+  public void scale(int x)
+  {
+      Pixel[][] intPixels = sourcePicture.getPixels2D();
+      Pixel[][] finalPixels = this.getPixels2D();
+      Pixel oldPixel = null;
+      Pixel newPixel = null;
+      for (int row = 0; row < intPixels.length; row++)
+      {
+          for (int col = 0; col < intPixels[row].length; col++)
+          {
+              intPixels[row][col] = finalPixels[row*x][col*x];
+              finalPixels.setColor(intPixels.getColor)
+
+          }
+
+          
+      }
+  } 
   
   /** Method that mirrors the picture around a 
     * vertical mirror in the center of the picture

@@ -92,7 +92,7 @@ public class PictureTester
   {
     Picture pic = new Picture("beach.jpg");
     pic.explore();
-    pic.cropAndCopy(pic, 5, 45, 60, 80, 220, 220 );
+    pic.cropAndCopy(pic, 5, 145, 10, 120, 220, 220 );
     pic.explore();
   }
   
