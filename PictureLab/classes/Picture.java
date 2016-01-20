@@ -185,7 +185,13 @@ public class Picture extends SimplePicture
       }
   }
  
-  public void scale(int x)
+  public void mandlebrot(Picture sourcePicture)
+  {
+      
+  }
+  
+  
+  public void scale(Picture sourcePicture, int x)
   {
       Pixel[][] intPixels = sourcePicture.getPixels2D();
       Pixel[][] finalPixels = this.getPixels2D();
@@ -196,7 +202,7 @@ public class Picture extends SimplePicture
           for (int col = 0; col < intPixels[row].length; col++)
           {
               intPixels[row][col] = finalPixels[row*x][col*x];
-              finalPixels.setColor(intPixels.getColor)
+              finalPixels[][].setColor(intPixels[][].getColor);
 
           }
 
