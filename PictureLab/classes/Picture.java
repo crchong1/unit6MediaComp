@@ -114,6 +114,49 @@ public class Picture extends SimplePicture
       }
     }
   }
+  
+
+
+
+public void diagonalNegate(int startLocation)
+{
+    Pixel[][] pixels = this.getPixels2D();
+    for(int row= startLocation; row < pixels.length; row = row+2)
+    {
+        for (int col = startLocation; col < pixels[0].length; col = col + 2)
+        {
+            int blue = pixels[row][col].getBlue();
+            int red = pixels[row][col].getRed();
+            int green = pixels[row][col].getGreen();
+            pixels[row][col].setBlue(255 - blue);
+            pixels[row][col].setGreen(255-green);
+            pixels[row][col].setRed(255-red);
+        }
+    }
+}
+
+public void diagonalNegate2(int startLocation)
+{
+    Pixel[][] pixels = this.getPixels2D();
+    int temp = startLocation;
+    while(startLocation < pixels.length)
+    {
+        for(int row= startLocation; row < pixels.length; row++)
+        {
+                int blue = pixels[row][row].getBlue();
+                int red = pixels[row][row].getRed();
+                int green = pixels[row][row].getGreen();
+                pixels[row][row].setBlue(255 - blue);
+                pixels[row][row].setGreen(255-green);
+                pixels[row][row].setRed(255-red);
+                
+        }
+        startLocation = startLocation + 2;
+    }
+}
+
+  
+  
   public void grayscale()
   {
     Pixel[][] pixels = this.getPixels2D();
@@ -202,7 +245,7 @@ public class Picture extends SimplePicture
           for (int col = 0; col < intPixels[row].length; col++)
           {
               intPixels[row][col] = finalPixels[row*x][col*x];
-              finalPixels[][].setColor(intPixels[][].getColor);
+              //finalPixels[][].setColor(intPixels[][].getColor);
 
           }
 
@@ -352,6 +395,9 @@ public class Picture extends SimplePicture
   /** Method to create a collage of several pictures */
   public void createCollage()
   {
+      
+      
+      
     Picture flower1 = new Picture("flower1.jpg");
     Picture flower2 = new Picture("flower2.jpg");
     this.copy(flower1,0,0);
@@ -363,6 +409,10 @@ public class Picture extends SimplePicture
     this.copy(flower1,400,0);
     this.copy(flower2,500,0);
     this.mirrorVertical();
+    for(int i = 0; i<200; i++)
+    {
+        flower1.diagonalNegate2(i);
+    }
     this.write("collage.jpg");
   }
   

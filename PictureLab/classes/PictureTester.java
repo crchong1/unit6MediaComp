@@ -73,6 +73,20 @@ public class PictureTester
     temple.mirrorTemple();
     temple.explore();
   }
+  public static void diagonalNegate()
+  {
+    Picture gull = new Picture("seagull.jpg");
+    gull.explore();
+    gull.diagonalNegate(100);
+    gull.explore();
+  }
+  public static void diagonalNegate2()
+  {
+    Picture gull = new Picture("seagull.jpg");
+    gull.explore();
+    gull.diagonalNegate2(100);
+    gull.explore();
+  }
   public static void testMirrorGull()
   {
     Picture gull = new Picture("seagull.jpg");
