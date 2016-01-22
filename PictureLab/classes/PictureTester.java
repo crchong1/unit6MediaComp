@@ -73,18 +73,25 @@ public class PictureTester
     temple.mirrorTemple();
     temple.explore();
   }
+   public static void scaleShrink()
+  {
+    Picture temple = new Picture("hummingbird.jpg");
+    temple.explore();
+    temple.scaleShrink(temple, 10);
+    temple.explore();
+  }
   public static void diagonalNegate()
   {
     Picture gull = new Picture("seagull.jpg");
     gull.explore();
-    gull.diagonalNegate(100);
+    gull.diagonalNegate(10,50,100,200);
     gull.explore();
   }
   public static void diagonalNegate2()
   {
     Picture gull = new Picture("seagull.jpg");
     gull.explore();
-    gull.diagonalNegate2(100);
+    gull.diagonalNegate2(100,100);
     gull.explore();
   }
   public static void testMirrorGull()
@@ -114,7 +121,7 @@ public class PictureTester
   /** Method to test the collage method */
   public static void testCollage()
   {
-    Picture canvas = new Picture("640x480.jpg");
+    Picture canvas = new Picture("hummingbird.jpg");
     canvas.createCollage();
     canvas.explore();
   }

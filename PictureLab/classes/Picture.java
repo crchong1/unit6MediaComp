@@ -118,12 +118,12 @@ public class Picture extends SimplePicture
 
 
 
-public void diagonalNegate(int startLocation)
+public void diagonalNegate(int rowStartLocation, int rowEnd, int colStartLocation, int colEnd)
 {
     Pixel[][] pixels = this.getPixels2D();
-    for(int row= startLocation; row < pixels.length; row = row+2)
+    for(int row= rowStartLocation; row < rowEnd; row = row+2)
     {
-        for (int col = startLocation; col < pixels[0].length; col = col + 2)
+        for (int col = colStartLocation; col < colEnd; col = col + 2)
         {
             int blue = pixels[row][col].getBlue();
             int red = pixels[row][col].getRed();
@@ -135,23 +135,35 @@ public void diagonalNegate(int startLocation)
     }
 }
 
-public void diagonalNegate2(int startLocation)
+public void diagonalNegate2(int rowStart, int colStart)
 {
     Pixel[][] pixels = this.getPixels2D();
-    int temp = startLocation;
-    while(startLocation < pixels.length)
+    int loopCounter = 0;
+    int increment = colStart;
+    boolean escape= false;
+    while(rowStart < pixels.length && escape ==false)
     {
-        for(int row= startLocation; row < pixels.length; row++)
+        increment = colStart;
+        for(int row= rowStart; row < pixels.length&& escape == false; row++)
         {
-                int blue = pixels[row][row].getBlue();
-                int red = pixels[row][row].getRed();
-                int green = pixels[row][row].getGreen();
-                pixels[row][row].setBlue(255 - blue);
-                pixels[row][row].setGreen(255-green);
-                pixels[row][row].setRed(255-red);
-                
+            int col = increment;
+            if(col >= pixels[row].length || row >= pixels.length)
+            {
+                escape = true;
+            }
+            else
+            {
+                col = increment;
+                int blue = pixels[row][col].getBlue();
+                int red = pixels[row][col].getRed();
+                int green = pixels[row][col].getGreen();
+                pixels[row][col].setBlue(255 - blue);
+                pixels[row][col].setGreen(255-green);
+                pixels[row][col].setRed(255-red);
+                increment++;
+            }
         }
-        startLocation = startLocation + 2;
+        rowStart = rowStart + 5;
     }
 }
 
@@ -226,27 +238,18 @@ public void diagonalNegate2(int startLocation)
           startDestRow++;
           
       }
-  }
- 
-  public void mandlebrot(Picture sourcePicture)
-  {
-      
-  }
+    }
   
   
-  public void scale(Picture sourcePicture, int x)
+  public void scaleShrink(Picture sourcePicture, int x)
   {
       Pixel[][] intPixels = sourcePicture.getPixels2D();
       Pixel[][] finalPixels = this.getPixels2D();
-      Pixel oldPixel = null;
-      Pixel newPixel = null;
-      for (int row = 0; row < intPixels.length; row++)
+      for (int row = 0; row*x < intPixels.length; row++)
       {
-          for (int col = 0; col < intPixels[row].length; col++)
+          for (int col = 0; col*x < intPixels[row].length; col++)
           {
-              intPixels[row][col] = finalPixels[row*x][col*x];
-              //finalPixels[][].setColor(intPixels[][].getColor);
-
+              finalPixels[row][col].setColor(intPixels[row*x][col*x].getColor());
           }
 
           
@@ -392,12 +395,34 @@ public void diagonalNegate2(int startLocation)
     }   
   }
 
-  /** Method to create a collage of several pictures */
-  public void createCollage()
-  {
+/** Method to create a collage of several pictures */
+public void createCollage()
+{
       
-      
-      
+    Picture hummingbird1 = new Picture("hummingbird.jpg");
+    Picture hummingbird2 = new Picture("hummingbird.jpg");
+    this.mirrorVertical();
+    hummingbird1.scaleShrink(hummingbird1,10);
+    cropAndCopy(hummingbird1, 0, 59, 0, 179, 200, 500 );
+    hummingbird2.scaleShrink(hummingbird1,5);
+    hummingbird2.negate();
+    cropAndCopy(hummingbird2, 0, 119, 0, 359, 300, 900 );
+    hummingbird1.grayscale();
+    cropAndCopy(hummingbird1, 0, 59, 0, 179, 50, 1200 );
+    for(int i = 0; i < 80; i++)
+    {
+        int randomSquare = (int) (Math.random()*(531));
+        int randomSquare2 = (int) (Math.random()*(1531));
+        this.diagonalNegate(randomSquare,randomSquare+25, randomSquare2, randomSquare2+25); //creates randomly placed negative grids
+    }
+    this.diagonalNegate2(1,1); // creates diagonal negative lines from start position
+    
+    
+    
+    this.write("collage.jpg");
+}
+  
+  /*
     Picture flower1 = new Picture("flower1.jpg");
     Picture flower2 = new Picture("flower2.jpg");
     this.copy(flower1,0,0);
@@ -409,14 +434,9 @@ public void diagonalNegate2(int startLocation)
     this.copy(flower1,400,0);
     this.copy(flower2,500,0);
     this.mirrorVertical();
-    for(int i = 0; i<200; i++)
-    {
-        flower1.diagonalNegate2(i);
-    }
-    this.write("collage.jpg");
-  }
-  
-  
+    */
+
+
   /** Method to show large changes in color 
     * @param edgeDist the distance for finding edges
     */
